@@ -2,3 +2,5 @@
 __pycache__/
 .env
 *.pyc
+# Ignore local virtual environment directory
+.venv312/
