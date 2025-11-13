@@ -1,0 +1,196 @@
+{
+  "id": "8e36f708-a775-431a-a717-c66943b3da20",
+  "app_name": "research-agent",
+  "user_id": "test_user",
+  "state": {
+    "_time": "2025-11-13T09:46:09.183945"
+  },
+  "events": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "Find latest quantum computing papers"
+          }
+        ],
+        "role": "user"
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "user",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "id": "d7864f3b-5738-4f66-b5d7-a98801e03edb",
+      "timestamp": 1763055969.184107
+    },
+    {
+      "model_version": "gemini-2.5-flash-lite",
+      "content": {
+        "parts": [
+          {
+            "function_call": {
+              "id": "adk-b81cb5cb-9838-491e-bf53-9cf5f7196431",
+              "args": {
+                "request": "latest quantum computing papers"
+              },
+              "name": "google_search_agent"
+            }
+          }
+        ],
+        "role": "model"
+      },
+      "finish_reason": "STOP",
+      "usage_metadata": {
+        "candidates_token_count": 20,
+        "prompt_token_count": 247,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 247
+          }
+        ],
+        "total_token_count": 267
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "research_paper_finder_agent",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "long_running_tool_ids": [],
+      "id": "7dba9628-ce28-4266-8309-cdf6b403eda7",
+      "timestamp": 1763055969.18615
+    },
+    {
+      "content": {
+        "parts": [
+          {
+            "function_response": {
+              "id": "adk-b81cb5cb-9838-491e-bf53-9cf5f7196431",
+              "name": "google_search_agent",
+              "response": {
+                "result": "Here are some of the latest quantum computing papers and related research:\n\n**Recent Breakthroughs in Quantum Error Correction and Scalability:**\n*   Researchers at Harvard have demonstrated a new system capable of detecting and removing errors below a key performance threshold, a significant step towards scalable, error-corrected quantum computation. This \"fault tolerant\" system utilizes 448 atomic quantum bits.\n*   A Harvard-MIT-QuEra collaboration published research on a system with over 3,000 qubits that operated continuously for more than two hours, overcoming challenges like atom loss.\n*   Caltech scientists have built a record-breaking array of 6,100 neutral-atom qubits, aiming for powerful error-corrected quantum computers.\n\n**New Algorithms and Applications:**\n*   Google Quantum AI and collaborators have introduced an efficient quantum algorithm called Decoded Quantum Interferometry (DQI). This algorithm uses quantum mechanics to find near-optimal solutions for optimization problems that are intractable for classical computers.\n*   A new photonic quantum circuit developed by researchers can enhance machine learning performance, even on small-scale quantum computers.\n*   The \"Journal of Quantum Computing\" has published articles on various applications, including optimizing wind farm layouts using quantum computers and pancreate cancer data classification with quantum machine learning.\n\n**Advancements in Quantum Hardware and Materials:**\n*   Aalto University physicists have achieved a record-breaking millisecond coherence in a transmon qubit, nearly doubling prior limits.\n*   Scientists have developed a new tool for identifying materials for next-generation quantum computing, a breakthrough for large-scale, fault-tolerant systems.\n*   Research suggests that exotic \"time crystals\" could be used as memory in quantum computers, potentially offering data storage durations of minutes, a substantial improvement over current millisecond-long storage.\n\n**Theoretical and Foundational Research:**\n*   A paper in *Quantum* explores a new framework for assessing the power of measurement-based quantum computation.\n*   Research published in *Nature* by Harvard researchers demonstrates a system that addresses the long-standing challenge of quantum error correction.\n*   The \"Quantum Journal\" published 328 papers in 2023, covering diverse topics from measurement-based quantum computation to quantum algorithms for Hamiltonian simulation.\n\nFor a comprehensive list of recent publications, you can explore journals like \"Quantum\" and the \"Journal of Quantum Computing\", as well as research groups such as QuEra and Google Quantum AI."
+              }
+            }
+          }
+        ],
+        "role": "user"
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "research_paper_finder_agent",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "id": "9aba8d52-9291-4639-ad7c-5244315a9e63",
+      "timestamp": 1763055973.771801
+    },
+    {
+      "model_version": "gemini-2.5-flash-lite",
+      "content": {
+        "parts": [
+          {
+            "function_call": {
+              "id": "adk-a9b71235-2c0a-43c7-8dcd-0022d2c6ea5b",
+              "args": {
+                "papers": "[\"Researchers at Harvard have demonstrated a new system capable of detecting and removing errors below a key performance threshold, a significant step towards scalable, error-corrected quantum computation. This \"fault tolerant\" system utilizes 448 atomic quantum bits.\",\"A Harvard-MIT-QuEra collaboration published research on a system with over 3,000 qubits that operated continuously for more than two hours, overcoming challenges like atom loss.\",\"Caltech scientists have built a record-breaking array of 6,100 neutral-atom qubits, aiming for powerful error-corrected quantum computers.\",\"Google Quantum AI and collaborators have introduced an efficient quantum algorithm called Decoded Quantum Interferometry (DQI). This algorithm uses quantum mechanics to find near-optimal solutions for optimization problems that are intractable for classical computers.\",\"A new photonic quantum circuit developed by researchers can enhance machine learning performance, even on small-scale quantum computers.\",\"The \"Journal of Quantum Computing\" has published articles on various applications, including optimizing wind farm layouts using quantum computers and pancreate cancer data classification with quantum machine learning.\",\"Aalto University physicists have achieved a record-breaking millisecond coherence in a transmon qubit, nearly doubling prior limits.\",\"Scientists have developed a new tool for identifying materials for next-generation quantum computing, a breakthrough for large-scale, fault-tolerant systems.\",\"Research suggests that exotic \"time crystals\" could be used as memory in quantum computers, potentially offering data storage durations of minutes, a substantial improvement over current millisecond-long storage.\",\"A paper in *Quantum* explores a new framework for assessing the power of measurement-based quantum computation.\",\"Research published in *Nature* by Harvard researchers demonstrates a system that addresses the long-standing challenge of quantum error correction.\",\"The \"Quantum Journal\" published 328 papers in 2023, covering diverse topics from measurement-based quantum computation to quantum algorithms for Hamiltonian simulation.\"\"]"
+              },
+              "name": "count_papers"
+            }
+          }
+        ],
+        "role": "model"
+      },
+      "finish_reason": "STOP",
+      "usage_metadata": {
+        "candidates_token_count": 419,
+        "prompt_token_count": 802,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 802
+          }
+        ],
+        "total_token_count": 1221
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "research_paper_finder_agent",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "long_running_tool_ids": [],
+      "id": "6706cc66-92ca-47ca-9988-0dab9dcb03c9",
+      "timestamp": 1763055973.772227
+    },
+    {
+      "content": {
+        "parts": [
+          {
+            "function_response": {
+              "id": "adk-a9b71235-2c0a-43c7-8dcd-0022d2c6ea5b",
+              "name": "count_papers",
+              "response": {
+                "result": 2167
+              }
+            }
+          }
+        ],
+        "role": "user"
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "research_paper_finder_agent",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "id": "2da4a944-ec96-417d-a4b2-b0dcf3d5b55a",
+      "timestamp": 1763055976.119983
+    },
+    {
+      "model_version": "gemini-2.5-flash-lite",
+      "content": {
+        "parts": [
+          {
+            "text": "Here are some of the latest quantum computing papers:\n\n*   Researchers at Harvard have demonstrated a new system capable of detecting and removing errors below a key performance threshold, a significant step towards scalable, error-corrected quantum computation. This \"fault tolerant\" system utilizes 448 atomic quantum bits.\n*   A Harvard-MIT-QuEra collaboration published research on a system with over 3,000 qubits that operated continuously for more than two hours, overcoming challenges like atom loss.\n*   Caltech scientists have built a record-breaking array of 6,100 neutral-atom qubits, aiming for powerful error-corrected quantum computers.\n*   Google Quantum AI and collaborators have introduced an efficient quantum algorithm called Decoded Quantum Interferometry (DQI). This algorithm uses quantum mechanics to find near-optimal solutions for optimization problems that are intractable for classical computers.\n*   A new photonic quantum circuit developed by researchers can enhance machine learning performance, even on small-scale quantum computers.\n*   The \"Journal of Quantum Computing\" has published articles on various applications, including optimizing wind farm layouts using quantum computers and pancreate cancer data classification with quantum machine learning.\n*   Aalto University physicists have achieved a record-breaking millisecond coherence in a transmon qubit, nearly doubling prior limits.\n*   Scientists have developed a new tool for identifying materials for next-generation quantum computing, a breakthrough for large-scale, fault-tolerant systems.\n*   Research suggests that exotic \"time crystals\" could be used as memory in quantum computers, potentially offering data storage durations of minutes, a substantial improvement over current millisecond-long storage.\n*   A paper in *Quantum* explores a new framework for assessing the power of measurement-based quantum computation.\n*   Research published in *Nature* by Harvard researchers demonstrates a system that addresses the long-standing challenge of quantum error correction.\n*   The \"Quantum Journal\" published 328 papers in 2023, covering diverse topics from measurement-based quantum computation to quantum algorithms for Hamiltonian simulation.\n\nA total of 2167 papers were found."
+          }
+        ],
+        "role": "model"
+      },
+      "finish_reason": "STOP",
+      "usage_metadata": {
+        "candidates_token_count": 438,
+        "prompt_token_count": 1239,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1239
+          }
+        ],
+        "total_token_count": 1677
+      },
+      "invocation_id": "e-ba31505c-eee1-44a9-b129-1ea231a3df9f",
+      "author": "research_paper_finder_agent",
+      "actions": {
+        "state_delta": {},
+        "artifact_delta": {},
+        "requested_auth_configs": {},
+        "requested_tool_confirmations": {}
+      },
+      "id": "68bc5e2d-3740-4e1d-8acb-82e92ca1513f",
+      "timestamp": 1763055976.120824
+    }
+  ],
+  "last_update_time": 1763055976.120824
+}
