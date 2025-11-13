@@ -1,10 +1,20 @@
 from . import agent
+try:
+    from ToolCallCountingPlugin import CountInvocationPlugin, ToolCallCountingPlugin
+except ModuleNotFoundError:
+    CountInvocationPlugin = None
+    ToolCallCountingPlugin = None
 from google.adk.apps.app import App
-from ToolCallCountingPlugin import ToolCallCountingPlugin
 
-# Expose an App so the ADK web loader discovers it
+# Align app name with UI slug (underscores) to avoid runner mismatch
+plugins = []
+if CountInvocationPlugin is not None:
+    plugins.append(CountInvocationPlugin())
+if ToolCallCountingPlugin is not None:
+    plugins.append(ToolCallCountingPlugin())
+
 app = App(
-    name="home-automation-agent",
+    name="home_automation_agent",
     root_agent=agent.root_agent,
-    plugins=[ToolCallCountingPlugin()],
+    plugins=plugins,
 )

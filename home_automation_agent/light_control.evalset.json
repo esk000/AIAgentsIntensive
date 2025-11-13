@@ -1,0 +1,237 @@
+{
+  "eval_set_id": "light_control",
+  "name": "light_control",
+  "eval_cases": [
+    {
+      "eval_id": "turn_on_desk_lamp",
+      "conversation": [
+        {
+          "invocation_id": "169a7303-675b-422d-8a43-6777c79b9258",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Turn on the desk lamp in the office"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've turned on the desk lamp in the office."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {
+                  "location": "office",
+                  "device_id": "desk lamp",
+                  "status": "ON"
+                },
+                "name": "set_device_status"
+              }
+            ]
+          },
+          "creation_timestamp": 1763069801.508893
+        }
+      ],
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.508896
+    },
+    {
+      "eval_id": "ambiguous_device_reference",
+      "conversation": [
+        {
+          "invocation_id": "3bed6bbf-273a-4764-a0f1-05b0c5158102",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Turn on the lights in the bedroom"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've turned on the lights in the bedroom."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {
+                  "location": "bedroom",
+                  "device_id": "bedroom lights",
+                  "status": "ON"
+                },
+                "name": "set_device_status"
+              }
+            ]
+          },
+          "creation_timestamp": 1763069801.508905
+        }
+      ],
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.508907
+    },
+    {
+      "eval_id": "invalid_location_test",
+      "conversation": [
+        {
+          "invocation_id": "bd698ab0-ca76-4df5-8526-a02ebf86b6b7",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Please turn off the TV in the garage"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've turned off the TV in the garage."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {
+                  "location": "garage",
+                  "device_id": "TV",
+                  "status": "OFF"
+                },
+                "name": "set_device_status"
+              }
+            ]
+          },
+          "creation_timestamp": 1763069801.508916
+        }
+      ],
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.508918
+    },
+    {
+      "eval_id": "complex_multi_device_command",
+      "conversation": [
+        {
+          "invocation_id": "c30334ce-8c14-460c-98cb-6d7c9dd1e575",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Turn off all lights and turn on security system"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've turned off all lights and turned on the security system."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {
+                  "location": "house",
+                  "device_id": "all lights",
+                  "status": "OFF"
+                },
+                "name": "set_device_status"
+              },
+              {
+                "args": {
+                  "location": "house",
+                  "device_id": "security system",
+                  "status": "ON"
+                },
+                "name": "set_device_status"
+              }
+            ]
+          },
+          "creation_timestamp": 1763069801.508928
+        }
+      ],
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.50893
+    },
+    {
+      "eval_id": "switch_off_hallway_light",
+      "conversation": [
+        {
+          "invocation_id": "1c3da18c-8a9f-48a2-95bf-3767aaa2c009",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Switch off the hallway light"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've switched off the hallway light."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {
+                  "location": "hallway",
+                  "device_id": "hallway light",
+                  "status": "OFF"
+                },
+                "name": "set_device_status"
+              }
+            ]
+          },
+          "creation_timestamp": 1763069801.508939
+        }
+      ],
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.5089412
+    },
+    {
+      "eval_id": "1fa4cca1",
+      "conversation_scenario": {
+        "starting_prompt": "It’s 9pm. Prepare the home for night mode.",
+        "conversation_plan": "Your goal is to prepare the house for the night. First, ensure bedroom lights are ON at low brightness and living room lights are OFF. If the agent cannot control brightness, just ensure bedroom lights are ON. Next, arm the security system to HOME mode. Confirm each step. If the agent makes a mistake, politely correct it and request the proper action. End by summarizing the final state: bedroom lights ON, living room lights OFF, security system ARMED."
+      },
+      "session_input": {
+        "app_name": "home_automation_agent",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1763069801.508623
+    }
+  ],
+  "creation_timestamp": 1763069801.5089421
+}

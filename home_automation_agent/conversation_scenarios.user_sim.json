@@ -1,0 +1,8 @@
+{
+  "scenarios": [
+    {
+      "starting_prompt": "It’s 9pm. Prepare the home for night mode.",
+      "conversation_plan": "Your goal is to prepare the house for the night. First, ensure bedroom lights are ON at low brightness and living room lights are OFF. If the agent cannot control brightness, just ensure bedroom lights are ON. Next, arm the security system to HOME mode. Confirm each step. If the agent makes a mistake, politely correct it and request the proper action. End by summarizing the final state: bedroom lights ON, living room lights OFF, security system ARMED."
+    }
+  ]
+}
