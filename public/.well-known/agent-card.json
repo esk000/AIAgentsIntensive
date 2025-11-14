@@ -1,0 +1,35 @@
+{
+  "capabilities": {},
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "description": "External vendor's product catalog agent that provides product information and availability.",
+  "name": "product_catalog_agent",
+  "preferredTransport": "JSONRPC",
+  "protocolVersion": "0.3.0",
+  "skills": [
+    {
+      "description": "External vendor's product catalog agent that provides product information and availability. \n    I am a product catalog specialist from an external vendor.\n    When asked about products, use the get_product_info tool to fetch data from the catalog.\n    Provide clear, accurate product information including price, availability, and specs.\n    If asked about multiple products, look up each one.\n    Be professional and helpful.\n    ",
+      "id": "product_catalog_agent",
+      "name": "model",
+      "tags": [
+        "llm"
+      ]
+    },
+    {
+      "description": "Get product information for a given product.",
+      "id": "product_catalog_agent-get_product_info",
+      "name": "get_product_info",
+      "tags": [
+        "llm",
+        "tools"
+      ]
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": false,
+  "url": "https://ai-agents-intensive.vercel.app",
+  "version": "0.0.1"
+}

@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/.well-known/agent-card.json",
+      "destination": "/.well-known/agent-card.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://vendor-catalog-backend.example.com/$1"
+    }
+  ]
+}
