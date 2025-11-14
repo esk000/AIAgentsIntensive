@@ -92,6 +92,77 @@
       </section>
 
       <section>
+        <h2>Agent2Agent Files (Per-File Descriptions)</h2>
+        <div class="card">
+          <div class="row">
+            <div class="item">
+              <h3>ProductCatalogAgent.py</h3>
+              <p>Serves product details via <code>get_product_info</code> (name, price, availability). Runs on port <code>8002</code>.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/ProductCatalogAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>ProductCatalogAgentServer.py</h3>
+              <p>ASGI/FastAPI server exposing the Product Catalog agent API and agent card. Applies A2A auth middleware.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/ProductCatalogAgentServer.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>InventoryAgent.py</h3>
+              <p>Checks stock availability and quantities. Intended to run on port <code>8003</code> with A2A auth.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/InventoryAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>ShippingAgent.py</h3>
+              <p>Computes shipping quotes and logistics options. Intended to run on port <code>8004</code> with A2A auth.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/ShippingAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>PaymentAgent.py</h3>
+              <p>Handles Stripe payments with resilient retries (<code>STRIPE_MAX_NETWORK_RETRIES</code>). Reads <code>STRIPE_API_KEY</code>. Intended for port <code>8005</code>.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/PaymentAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>CustomerSupportAgent.py</h3>
+              <p>Orchestrates sub-agents via authenticated A2A proxies. Reads <code>PRODUCT_CATALOG_AGENT_CARD_URL</code>, <code>A2A_API_KEY</code>, <code>A2A_BEARER_TOKEN</code>.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/CustomerSupportAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>RemoteA2aAgent.py</h3>
+              <p>Reusable authenticated HTTP client for A2A. Loads agent cards, adds auth headers, and performs resilient calls to remote skills.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/RemoteA2aAgent.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>a2a_auth.py</h3>
+              <p>Middleware enforcing API Key/Bearer auth on agent endpoints, while allowing public access to <code>/.well-known/agent-card.json</code>.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/a2a_auth.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+            <div class="item">
+              <h3>FetchAgentCard.py</h3>
+              <p>Utility to fetch and validate remote agent card JSON by URL. Useful for bootstrapping A2A clients.</p>
+              <div class="links">
+                <a href="https://github.com/esk000/AIAgentsIntensive/blob/main/Agent2Agent/FetchAgentCard.py" target="_blank" rel="noopener">File</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
         <h2>Other Agents & Projects</h2>
         <div class="card">
           <div class="row">
