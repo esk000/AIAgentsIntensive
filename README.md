@@ -22,3 +22,13 @@ If you plan to build an agent project using ADK, you can scaffold one next:
 - `adk create my_agent`
 - Put your `GOOGLE_API_KEY` in `my_agent/.env`
 - Run your agent via `adk run my_agent` or launch the dev UI with `adk web --port 8000`
+
+## Projects & Agents Directory
+
+Explore the full list of projects and agents:
+
+- Live (Vercel): `https://ai-agents-intensive.vercel.app/` or `https://ai-agents-intensive.vercel.app/index.html`
+- GitHub source: `https://github.com/esk000/AIAgentsIntensive/blob/main/public/index.html`
+- PDF export: `https://ai-agents-intensive.vercel.app/index.pdf` or `https://github.com/esk000/AIAgentsIntensive/blob/main/public/index.pdf`
+
+The directory page summarizes the Agent2Agent suite, per-file descriptions, and quick links to agent cards, servers, and utilities.
