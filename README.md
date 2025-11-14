@@ -28,5 +28,5 @@ If you plan to build an agent project using ADK, you can scaffold one next:
 Explore the full list of projects and agents:
 
 - Project Introduction (HTML): [public/index.html](https://github.com/esk000/AIAgentsIntensive/blob/main/public/index.html)
-- Project Introduction (PDF): [index.pdf (Vercel)](https://ai-agents-intensive.vercel.app/index.pdf) or [index.pdf (GitHub)](https://github.com/esk000/AIAgentsIntensive/blob/main/public/index.pdf)
+- Project Introduction (PDF): [index.pdf (GitHub)](https://github.com/esk000/AIAgentsIntensive/blob/main/public/index.pdf)
 
