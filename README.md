@@ -1,5 +1,7 @@
 # Google ADK quick setup
 
+Author: Erum Saba
+
 This folder contains a small helper to set up your Gemini API key for local development with Google ADK.
 
 ## Prerequisites
