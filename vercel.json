@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/public/(.*)",
+      "destination": "/public/$1"
+    },
+    {
+      "source": "/automated-grader",
+      "destination": "/public/automated-grader.html"
+    },
+    {
       "source": "/.well-known/agent-card.json",
       "destination": "/.well-known/agent-card.json"
     },
