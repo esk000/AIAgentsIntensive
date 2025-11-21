@@ -2,6 +2,30 @@
 
 Author: Erum Saba
 
+## Automated Homework/Test Grader & Feedback Agent
+
+- Input: image or PDF of test sheet or student writing.
+- Outputs: rubric-based grade, plagiarism analysis, AI-generated text risk, and constructive feedback with sources.
+- Concepts demonstrated: multi-agent (sequential + parallel), custom tools, sessions & memory, context engineering, observability, and long-running pause/resume.
+
+### Run Locally
+- Install optional parsers: `pip install pypdf pillow pytesseract duckduckgo-search`
+- Configure Gemini API key: `export GOOGLE_API_KEY=...`
+- Execute: `python -m AutomatedGrader.orchestrator /path/to/input.pdf --rubric "Clarity, accuracy, structure, evidence"`
+- Output report: `AutomatedGrader/output/latest_report.json`
+
+### Architecture
+- Ingestion: `AutomatedGrader/ingestion.py` extracts text from PDF/images with fallbacks.
+- Analysis (parallel): `AutomatedGrader/tools/plagiarism.py` + `AutomatedGrader/tools/ai_detection.py`.
+- Grading Agent: `AutomatedGrader/agents/grading_agent.py` (LLM, sessions & memory).
+- Feedback Agent: `AutomatedGrader/agents/feedback_agent.py` (LLM feedback, sources, style).
+- Orchestrator: `AutomatedGrader/orchestrator.py` combines stages, supports pause/resume.
+
+### Notes
+- Web search uses DuckDuckGo if available; otherwise, confidence is limited.
+- Observability logging initializes via `AgentObservability`.
+- Memory persists within the process; upgrade to database-backed sessions via `PS_DatabaseSessionService.py` if needed.
+
 This folder contains a small helper to set up your Gemini API key for local development with Google ADK.
 
 ## Prerequisites
