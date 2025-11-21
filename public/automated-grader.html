@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automated Grader UI</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background: #f7f7f8; }
+    header { background: #111827; color: #fff; padding: 16px; }
+    main { max-width: 900px; margin: 24px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    h1 { font-size: 20px; margin: 0; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-top: 16px; }
+    label { display: block; font-weight: 600; margin: 12px 0 6px; }
+    textarea, input[type="text"], input[type="file"], select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; }
+    button { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 10px 14px; cursor: pointer; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .criteria { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .badge { display: inline-block; background: #eef2ff; color: #1e40af; padding: 4px 8px; border-radius: 999px; font-size: 12px; }
+    .error { color: #b91c1c; font-weight: 600; }
+    .muted { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Automated Homework/Test Grader & Feedback</h1>
+  </header>
+  <main>
+    <p class="muted">Submit text or upload an image/PDF to get rubric-based scores, plagiarism and AI-detection analysis, and constructive feedback.</p>
+
+    <div class="card">
+      <form id="gradeForm">
+        <label>Input Type</label>
+        <select id="inputType">
+          <option value="text">Text</option>
+          <option value="file">File (image/PDF)</option>
+        </select>
+
+        <div id="textInput">
+          <label>Student Text</label>
+          <textarea id="studentText" rows="8" placeholder="Paste the student's writing here..."></textarea>
+        </div>
+
+        <div id="fileInput" style="display:none;">
+          <label>Upload File</label>
+          <input type="file" id="studentFile" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,.bmp" />
+        </div>
+
+        <label>Rubric</label>
+        <input type="text" id="rubric" value="Clarity, accuracy, structure, evidence" />
+
+        <div style="margin-top:12px;" class="row">
+          <button id="submitBtn" type="submit">Grade</button>
+          <span id="status" class="muted"></span>
+        </div>
+      </form>
+    </div>
+
+    <div id="results" class="card" style="display:none;">
+      <h3>Results</h3>
+      <div id="overall"></div>
+      <div id="criteria" class="criteria"></div>
+      <div id="analysis" class="row"></div>
+      <div id="feedback" class="row"></div>
+    </div>
+
+    <div id="error" class="error" style="display:none;"></div>
+  </main>
+
+  <script>
+    const inputTypeEl = document.getElementById('inputType');
+    const textInputEl = document.getElementById('textInput');
+    const fileInputEl = document.getElementById('fileInput');
+    const formEl = document.getElementById('gradeForm');
+    const statusEl = document.getElementById('status');
+    const errorEl = document.getElementById('error');
+    const resultsEl = document.getElementById('results');
+    const overallEl = document.getElementById('overall');
+    const criteriaEl = document.getElementById('criteria');
+    const analysisEl = document.getElementById('analysis');
+    const feedbackEl = document.getElementById('feedback');
+
+    inputTypeEl.addEventListener('change', () => {
+      const v = inputTypeEl.value;
+      if (v === 'text') {
+        textInputEl.style.display = '';
+        fileInputEl.style.display = 'none';
+      } else {
+        textInputEl.style.display = 'none';
+        fileInputEl.style.display = '';
+      }
+    });
+
+    formEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.style.display = 'none';
+      resultsEl.style.display = 'none';
+      statusEl.textContent = 'Submitting...';
+
+      const form = new FormData();
+      const rubric = document.getElementById('rubric').value;
+      form.append('rubric', rubric);
+
+      if (inputTypeEl.value === 'text') {
+        const text = document.getElementById('studentText').value.trim();
+        if (!text) {
+          errorEl.textContent = 'Please provide text.';
+          errorEl.style.display = 'block';
+          statusEl.textContent = '';
+          return;
+        }
+        form.append('text', text);
+      } else {
+        const file = document.getElementById('studentFile').files[0];
+        if (!file) {
+          errorEl.textContent = 'Please choose a file.';
+          errorEl.style.display = 'block';
+          statusEl.textContent = '';
+          return;
+        }
+        form.append('file', file);
+      }
+
+      try {
+        const resp = await fetch('http://localhost:8010/grade', { method: 'POST', body: form });
+        const data = await resp.json();
+        if (!resp.ok) {
+          throw new Error(data.detail || 'Request failed');
+        }
+        renderResults(data);
+        statusEl.textContent = 'Done';
+      } catch (err) {
+        errorEl.textContent = 'Error: ' + err.message;
+        errorEl.style.display = 'block';
+        statusEl.textContent = '';
+      }
+    });
+
+    function renderResults(data) {
+      resultsEl.style.display = '';
+      const grade = data.grade || {};
+      const overall = grade.overall_score ?? grade.raw ?? 'N/A';
+      overallEl.innerHTML = `<p><span class="badge">Overall Score</span> <strong>${overall}</strong></p>`;
+
+      const criteria = Array.isArray(grade.criteria) ? grade.criteria : [];
+      criteriaEl.innerHTML = criteria.map(c => `
+        <div class="card">
+          <div><span class="badge">Criterion</span> <strong>${escapeHtml(c.name || '')}</strong></div>
+          <div><span class="badge">Score</span> ${escapeHtml(String(c.score ?? 'N/A'))}</div>
+          <div><span class="badge">Notes</span> ${escapeHtml(c.notes || '')}</div>
+        </div>
+      `).join('');
+
+      const analysis = data.analysis || {};
+      const plag = analysis.plagiarism || {};
+      const ai = analysis.ai_eval || {};
+      analysisEl.innerHTML = `
+        <div class="card" style="flex:1;">
+          <h4>Plagiarism</h4>
+          <p>Avg similarity: <strong>${plag.avg_similarity ?? 'N/A'}</strong></p>
+          <p>High-similarity chunks: <strong>${plag.high_similarity_chunks ?? 0}</strong></p>
+          <p>Likely plagiarized: <strong>${String(plag.likely_plagiarized)}</strong></p>
+          <p>Confidence: <strong>${plag.confidence || 'limited'}</strong></p>
+        </div>
+        <div class="card" style="flex:1;">
+          <h4>AI Detection</h4>
+          <p>Risk: <strong>${ai.risk || 'N/A'}</strong></p>
+          <p>Entropy: <strong>${ai.entropy ?? 'N/A'}</strong></p>
+          <p>Stopword ratio: <strong>${ai.stopword_ratio ?? 'N/A'}</strong></p>
+          <p>Repetitive trigrams: <strong>${ai.repetitive_trigrams ?? 0}</strong></p>
+        </div>
+      `;
+
+      const feedback = data.feedback || {};
+      const suggestions = Array.isArray(feedback.suggestions) ? feedback.suggestions : [];
+      const sources = Array.isArray(feedback.sources) ? feedback.sources : [];
+      const style = Array.isArray(feedback.style) ? feedback.style : [];
+      feedbackEl.innerHTML = `
+        <div class="card" style="flex:1;">
+          <h4>Suggestions</h4>
+          <ul>${suggestions.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+        </div>
+        <div class="card" style="flex:1;">
+          <h4>Sources</h4>
+          <ul>${sources.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+        </div>
+        <div class="card" style="flex:1;">
+          <h4>Style</h4>
+          <ul>${style.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+        </div>
+      `;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
