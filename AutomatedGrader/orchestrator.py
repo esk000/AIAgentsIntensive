@@ -66,9 +66,19 @@ class AutomatedGraderOrchestrator:
         )
 
     async def _run_agent(self, runner: Runner, session_id: str, prompt: str) -> Dict[str, Any]:
+        # Ensure the session exists for the configured app_name
+        try:
+            session = await self.session_service.create_session(
+                app_name=APP_NAME, user_id=USER_ID, session_id=session_id
+            )
+        except Exception:
+            session = await self.session_service.get_session(
+                app_name=APP_NAME, user_id=USER_ID, session_id=session_id
+            )
+
         content = types.Content(role="user", parts=[types.Part(text=prompt)])
         last_json: Dict[str, Any] = {}
-        async for event in runner.run_async(user_id=USER_ID, session_id=session_id, new_message=content):
+        async for event in runner.run_async(user_id=USER_ID, session_id=session.id, new_message=content):
             if event.is_final_response() and event.content.parts:
                 for part in event.content.parts:
                     if getattr(part, "text", None):
