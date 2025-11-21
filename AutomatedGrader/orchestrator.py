@@ -136,7 +136,13 @@ class AutomatedGraderOrchestrator:
         out_path = os.path.join("AutomatedGrader/output", "latest_report.json")
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
-        return {"ok": True, "report_path": out_path, "summary": report.get("grade", {})}
+        return {
+            "ok": True,
+            "report_path": out_path,
+            "grade": grade_json,
+            "analysis": {"plagiarism": plag_summary, "ai_eval": ai_eval},
+            "feedback": feedback_json,
+        }
 
 
 async def main_cli():
