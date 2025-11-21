@@ -2,6 +2,7 @@ from typing import Dict, Any
 import math
 import re
 from collections import Counter
+import os
 
 
 def _entropy(tokens):
@@ -15,11 +16,17 @@ def _entropy(tokens):
 def detect_ai_generated(text: str) -> Dict[str, Any]:
     """Heuristic detection of AI-generated text.
 
+    WARNING: This is a simple heuristic classifier, NOT a production-grade ML model.
+    False positives are common for formulaic writing (reports, legal docs, etc.).
+    
     Signals considered:
     - Token entropy (lower can indicate uniform phrasing)
     - Sentence length variance (very uniform lengths can indicate AI)
     - Repetitive phrases and n-gram reuse
     - Stopword ratio
+    - Type-token ratio (lower can suggest repetition)
+    - Presence of template-like headings (e.g., Causes/Effects/Solutions/Conclusion)
+    - Transitional phrase density (e.g., moreover, additionally, in conclusion)
     """
     sentences = re.split(r"[.!?]+\s*", text.strip())
     sentences = [s for s in sentences if s]
@@ -40,19 +47,50 @@ def detect_ai_generated(text: str) -> Dict[str, Any]:
     )
     stop_ratio = sum(1 for w in words if w in stopwords) / (len(words) or 1)
 
-    score = 0.0
-    score += 1.0 if entropy < 3.0 else 0.0
-    score += 1.0 if var_len < 30 else 0.0
-    score += 1.0 if repetitive_trigrams >= 5 else 0.0
-    score += 1.0 if stop_ratio > 0.55 else 0.0
+    # Additional signals
+    unique_words = set(words)
+    ttr = (len(unique_words) / (len(words) or 1)) if words else 0.0
 
-    risk_levels = {0: "low", 1: "low", 2: "moderate", 3: "high", 4: "high"}
+    headings_keywords = {"causes", "effects", "solutions", "conclusion"}
+    headings_hits = sum(1 for kw in headings_keywords if kw in {w.lower() for w in unique_words})
+
+    transitional_phrases = [
+        "moreover", "additionally", "in conclusion", "overall", "for example", "for instance",
+        "on the other hand", "furthermore", "however"
+    ]
+    tp_count = sum(len(re.findall(r"\b" + re.escape(tp) + r"\b", text.lower())) for tp in transitional_phrases)
+
+    # Strict mode can be enabled via env var to increase sensitivity
+    strict = os.getenv("AI_DETECT_STRICT", "false").lower() in {"1", "true", "yes"}
+
+    score = 0.0
+    score += 1.0 if entropy < (3.2 if strict else 3.0) else 0.0
+    score += 1.0 if var_len < (36 if strict else 30) else 0.0
+    score += 1.0 if repetitive_trigrams >= (4 if strict else 5) else 0.0
+    score += 1.0 if stop_ratio > (0.52 if strict else 0.55) else 0.0
+    score += 1.0 if ttr < (0.36 if strict else 0.33) else 0.0
+    score += 1.0 if headings_hits >= (2 if strict else 3) else 0.0
+    score += 1.0 if tp_count >= (4 if strict else 5) else 0.0
+
+    # Map combined score to risk; clamp to max known bucket
+    s_int = int(score)
+    if s_int <= 1:
+        risk = "low"
+    elif s_int <= 3:
+        risk = "moderate"
+    else:
+        risk = "high"
     return {
         "entropy": round(entropy, 3),
         "avg_sentence_len": round(avg_len, 2),
         "var_sentence_len": round(var_len, 2),
         "repetitive_trigrams": repetitive_trigrams,
         "stopword_ratio": round(stop_ratio, 3),
-        "risk": risk_levels[int(score)],
-        "likely_ai": score >= 3.0,
+        "type_token_ratio": round(ttr, 3),
+        "headings_hits": headings_hits,
+        "transitional_count": tp_count,
+        "strict": strict,
+        "risk": risk,
+        "likely_ai": score >= (2.0 if strict else 3.0),
+        "disclaimer": "Heuristic-only; not ML-based. False positives common for formulaic writing.",
     }

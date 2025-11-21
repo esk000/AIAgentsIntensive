@@ -1,0 +1,71 @@
+name: Deploy AutomatedGrader to Cloud Run
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  SERVICE_NAME: automated-grader
+  REPO_NAME: automated-grader
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Enable required APIs
+        run: |
+          gcloud services enable \
+            run.googleapis.com \
+            artifactregistry.googleapis.com \
+            cloudbuild.googleapis.com
+
+      - name: Create Artifact Registry repo (idempotent)
+        run: |
+          gcloud artifacts repositories create ${{ env.REPO_NAME }} \
+            --repository-format=docker \
+            --location=${{ secrets.GCP_REGION }} || true
+
+      - name: Build and push image with Cloud Build
+        env:
+          REGION: ${{ secrets.GCP_REGION }}
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          IMAGE_URI="${REGION}-docker.pkg.dev/${PROJECT_ID}/${{ env.REPO_NAME }}/${{ env.SERVICE_NAME }}:latest"
+          echo "Using IMAGE_URI=$IMAGE_URI"
+          gcloud builds submit --tag "$IMAGE_URI" --file AutomatedGrader/Dockerfile .
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+      - name: Deploy to Cloud Run (managed)
+        env:
+          REGION: ${{ secrets.GCP_REGION }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image "$IMAGE_URI" \
+            --platform managed \
+            --region "$REGION" \
+            --allow-unauthenticated \
+            --port 8080 \
+            --set-env-vars GOOGLE_API_KEY=${GOOGLE_API_KEY},AI_DETECT_STRICT=true
+
+      - name: Output service URL
+        env:
+          REGION: ${{ secrets.GCP_REGION }}
+        run: |
+          URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} --region "$REGION" --format='value(status.url)')
+          echo "CLOUD_RUN_URL=$URL" >> $GITHUB_ENV
+          echo "Deployed service URL: $URL"

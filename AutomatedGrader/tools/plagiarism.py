@@ -42,8 +42,12 @@ def check_plagiarism(text: str) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
     chunks = _chunk_text(text)
     findings: List[Dict[str, Any]] = []
     similarities: List[float] = []
+    search_available = True
+    
     for chunk in chunks:
         search_results = _search_chunk(chunk)
+        if not search_results:
+            search_available = False
         top_sim = 0.0
         best_match = None
         for r in search_results:
@@ -58,10 +62,22 @@ def check_plagiarism(text: str) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
     avg_sim = sum(similarities) / len(similarities) if similarities else 0.0
     high_sim_count = sum(1 for s in similarities if s >= 0.85)
 
+    # Determine confidence level
+    if not search_available or all(not f.get("best_match") for f in findings):
+        confidence = "unavailable"
+        likely_plagiarized = None  # Cannot determine
+    elif any(f.get("best_match") for f in findings):
+        confidence = "moderate"
+        likely_plagiarized = high_sim_count >= max(1, len(chunks) // 6)
+    else:
+        confidence = "limited"
+        likely_plagiarized = False
+
     summary = {
         "avg_similarity": round(avg_sim, 3),
         "high_similarity_chunks": high_sim_count,
-        "likely_plagiarized": high_sim_count >= max(1, len(chunks) // 6),
-        "confidence": "limited" if not findings or all(not f.get("best_match") for f in findings) else "moderate",
+        "likely_plagiarized": likely_plagiarized,
+        "confidence": confidence,
+        "note": "Web search unavailable - results unreliable" if confidence == "unavailable" else None,
     }
     return summary, findings

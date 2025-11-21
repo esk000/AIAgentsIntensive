@@ -9,12 +9,12 @@
       "destination": "/public/automated-grader.html"
     },
     {
-      "source": "/.well-known/agent-card.json",
-      "destination": "/.well-known/agent-card.json"
+      "source": "/",
+      "destination": "/public/automated-grader.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "https://vendor-catalog-backend.example.com/$1"
+      "source": "/.well-known/agent-card.json",
+      "destination": "/.well-known/agent-card.json"
     }
   ]
 }

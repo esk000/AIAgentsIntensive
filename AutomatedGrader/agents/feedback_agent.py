@@ -1,5 +1,6 @@
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
+from google.adk.apps.app import App
 from google.genai import types
 
 
@@ -25,4 +26,12 @@ def create_feedback_agent() -> LlmAgent:
             "fields: suggestions (list of strings), sources (list of URLs or citations), "
             "style (list of concise style improvements). Keep it practical and kind."
         ),
+    )
+
+
+def create_feedback_app() -> App:
+    """Build an App wrapping the feedback agent."""
+    return App(
+        name="FeedbackApp",
+        root_agent=create_feedback_agent()
     )

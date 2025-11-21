@@ -1,0 +1,59 @@
+telemetry.py:173 DEBUG:Start tracing for a2a.utils.helpers.create_task_obj, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.utils.helpers.append_artifact_to_task, is_async_func False
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.clear_events, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.close, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.dequeue_event, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.enqueue_event, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.is_closed, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.tap, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_queue.EventQueue.task_done, is_async_func False
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_consumer.EventConsumer.agent_task_callback, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_consumer.EventConsumer.consume_all, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.event_consumer.EventConsumer.consume_one, is_async_func True
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.in_memory_queue_manager.InMemoryQueueManager.add, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.in_memory_queue_manager.InMemoryQueueManager.close, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.in_memory_queue_manager.InMemoryQueueManager.create_or_tap, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.in_memory_queue_manager.InMemoryQueueManager.get, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.server.events.in_memory_queue_manager.InMemoryQueueManager.tap, is_async_func True
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport._apply_interceptors, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport._get_http_args, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport._send_request, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.cancel_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.close, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_card, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_task_callback, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.resubscribe, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.send_message, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.send_message_streaming, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.set_task_callback, is_async_func True
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._apply_interceptors, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._get_http_args, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._prepare_send_message, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._send_get_request, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._send_post_request, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport._send_request, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.cancel_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.close, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.get_card, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.get_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.get_task_callback, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.resubscribe, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.send_message, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.send_message_streaming, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.rest.RestTransport.set_task_callback, is_async_func True
+telemetry.py:314 DEBUG:Trace all class None, None
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.cancel_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.close, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.get_card, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task_callback, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.resubscribe, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message, is_async_func True
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message_streaming, is_async_func False
+telemetry.py:173 DEBUG:Start tracing for a2a.client.transports.grpc.GrpcTransport.set_task_callback, is_async_func True

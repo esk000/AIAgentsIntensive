@@ -1,0 +1,72 @@
+{
+  "input": {
+    "ok": true,
+    "path": "AutomatedGrader/tmp/upload_3fcb01f65dae7173.pdf",
+    "ext": ".pdf",
+    "pages": 1
+  },
+  "analysis": {
+    "plagiarism": {
+      "avg_similarity": 0.0,
+      "high_similarity_chunks": 0,
+      "likely_plagiarized": null,
+      "confidence": "unavailable",
+      "note": "Web search unavailable - results unreliable"
+    },
+    "ai_eval": {
+      "entropy": 0.0,
+      "avg_sentence_len": 0.0,
+      "var_sentence_len": 0.0,
+      "repetitive_trigrams": 0,
+      "stopword_ratio": 0.0,
+      "type_token_ratio": 0.0,
+      "headings_hits": 0,
+      "transitional_count": 0,
+      "strict": true,
+      "risk": "moderate",
+      "likely_ai": true,
+      "disclaimer": "Heuristic-only; not ML-based. False positives common for formulaic writing."
+    }
+  },
+  "grade": {
+    "overall_score": 75,
+    "criteria": [
+      {
+        "name": "Clarity",
+        "score": 70,
+        "notes": "The writing is generally understandable, but some sentences are a bit convoluted. For example, 'The intricate network of neural pathways, which are responsible for the transmission of electrical and chemical signals, facilitates complex cognitive functions such could be more concise."
+      },
+      {
+        "name": "Accuracy",
+        "score": 80,
+        "notes": "The information presented appears to be factually correct based on common understanding of the topic. No significant errors were identified."
+      },
+      {
+        "name": "Structure",
+        "score": 75,
+        "notes": "The text follows a logical progression of ideas. However, a clearer topic sentence for the second paragraph would improve the flow. The transition between the discussion of neurotransmitters and their receptors could also be smoother."
+      },
+      {
+        "name": "Evidence",
+        "score": 75,
+        "notes": "While the text makes claims about biological processes, it lacks specific citations or references to support these claims. For instance, when discussing the role of dopamine, mentioning a specific study or source would strengthen the argument."
+      }
+    ],
+    "notes": "Good attempt at explaining a complex topic. Focus on refining sentence structure for better clarity and incorporating specific evidence to support your points. Ensure smooth transitions between ideas."
+  },
+  "feedback": {
+    "suggestions": [
+      "Consider rephrasing sentences that feel long or have multiple clauses to improve readability. For example, 'The intricate network of neural pathways, which are responsible for the transmission of electrical and chemical signals, facilitates complex cognitive functions' could be streamlined.",
+      "To enhance the flow of the second paragraph, try starting it with a clear topic sentence that introduces the main idea of that section.",
+      "Strengthen the connection between your discussion of neurotransmitters and their receptors. A brief sentence explicitly linking these two components could be helpful.",
+      "Incorporate specific citations or references when making claims about biological processes. For instance, when mentioning dopamine, referencing a particular study or a reputable source would add significant weight to your statements.",
+      "Review your transitions between paragraphs and ideas to ensure a smooth and logical progression for the reader."
+    ],
+    "sources": [],
+    "style": [
+      "Vary sentence structure to avoid sounding monotonous.",
+      "Use active voice where appropriate for more direct and concise writing.",
+      "Ensure clear and direct topic sentences for each paragraph."
+    ]
+  }
+}

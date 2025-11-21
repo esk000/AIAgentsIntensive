@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: automated-grader
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: AutomatedGrader/Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: AI_DETECT_STRICT
+        value: "true"
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:8080,https://automated-grader.vercel.app"

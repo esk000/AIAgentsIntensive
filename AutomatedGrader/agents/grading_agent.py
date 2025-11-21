@@ -1,5 +1,6 @@
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
+from google.adk.apps.app import App
 from google.genai import types
 
 
@@ -25,4 +26,12 @@ def create_grading_agent() -> LlmAgent:
             "return JSON with fields: overall_score (0-100), criteria (list of {name,score,notes}), "
             "and notes (brief and constructive). Be specific and point to evidence."
         ),
+    )
+
+
+def create_grading_app() -> App:
+    """Build an App wrapping the grading agent."""
+    return App(
+        name="GradingApp",
+        root_agent=create_grading_agent()
     )
