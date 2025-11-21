@@ -16,8 +16,18 @@ logging.basicConfig(
 
 print("✅ Logging configured")
 
-# Use the public IPython display API; core.display doesn't expose `display`
-from IPython.display import display, HTML
+# Try to import IPython display utilities, but make them optional for non-notebook environments
+try:
+    from IPython.display import display, HTML  # type: ignore
+    IPYTHON_AVAILABLE = True
+except Exception:
+    IPYTHON_AVAILABLE = False
+    def display(_obj):
+        # No-op display when IPython isn't available
+        return None
+    class HTML:
+        def __init__(self, _content):
+            self._content = _content
 
 # Make Jupyter dependency optional so the script can run outside notebooks
 try:
@@ -75,10 +85,11 @@ def get_adk_proxy_url():
     """
 
     # Only attempt to display if running in a Jupyter environment
-    try:
-        display(HTML(styled_html))
-    except Exception:
-        pass
+    if IPYTHON_AVAILABLE:
+        try:
+            display(HTML(styled_html))
+        except Exception:
+            pass
 
     return url_prefix
 
