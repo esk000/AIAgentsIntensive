@@ -46,7 +46,7 @@
           <input type="file" id="studentFile" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,.bmp" />
         </div>
 
-        <label>Rubric</label>
+        <label>Grading Attributes</label>
         <input type="text" id="rubric" value="Clarity, accuracy, structure, evidence" />
 
         <div style="margin-top:12px;" class="row">
@@ -139,8 +139,23 @@
     function renderResults(data) {
       resultsEl.style.display = '';
       const grade = data.grade || {};
-      const overall = grade.overall_score ?? grade.raw ?? 'N/A';
-      overallEl.innerHTML = `<p><span class="badge">Overall Score</span> <strong>${overall}</strong></p>`;
+      // Handle different possible overall shapes: number/string OR object with score/value and notes
+      const overallRaw = grade.overall_score ?? grade.overall ?? grade.raw ?? 'N/A';
+      let overallScore = 'N/A';
+      let overallNotes = '';
+      if (typeof overallRaw === 'number' || typeof overallRaw === 'string') {
+        overallScore = overallRaw;
+      } else if (overallRaw && typeof overallRaw === 'object') {
+        overallScore = overallRaw.score ?? overallRaw.value ?? 'N/A';
+        overallNotes = overallRaw.notes || overallRaw.comment || '';
+      }
+      const letter = toLetterGrade(Number(overallScore));
+      overallEl.innerHTML = `
+        <div class="card">
+          <div><span class="badge">Overall Score</span> <strong>${escapeHtml(String(overallScore))}</strong> ${letter ? `<span class="badge" style="margin-left:8px;">${letter}</span>` : ''}</div>
+          ${overallNotes ? `<div class="muted" style="margin-top:6px;">${escapeHtml(overallNotes)}</div>` : ''}
+        </div>
+      `;
 
       const criteria = Array.isArray(grade.criteria) ? grade.criteria : [];
       criteriaEl.innerHTML = criteria.map(c => `
@@ -198,6 +213,22 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    function toLetterGrade(score) {
+      if (isNaN(score)) return '';
+      if (score >= 93) return 'A';
+      if (score >= 90) return 'A-';
+      if (score >= 87) return 'B+';
+      if (score >= 83) return 'B';
+      if (score >= 80) return 'B-';
+      if (score >= 77) return 'C+';
+      if (score >= 73) return 'C';
+      if (score >= 70) return 'C-';
+      if (score >= 67) return 'D+';
+      if (score >= 63) return 'D';
+      if (score >= 60) return 'D-';
+      return 'F';
     }
   </script>
 </body>
