@@ -8,3 +8,4 @@ duckduckgo-search
 google-genai
 python-dotenv
 requests
+google-adk
