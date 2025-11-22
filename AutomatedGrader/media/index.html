@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutomatedGrader - AI-Powered Academic Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .author {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .icon {
+            font-size: 1.2em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .architecture-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .flow-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: none;
+            color: #f8f8f2;
+            padding: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tech-badge {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box strong {
+            color: #856404;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #0dcaf0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: #d1e7dd;
+            border-left: 4px solid #198754;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .demo-section h2 {
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .tagline {
+                font-size: 1.1em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 AutomatedGrader</h1>
+            <p class="tagline">AI-Powered Homework & Test Grading with Plagiarism Detection and Feedback</p>
+            <p class="author">Author: Erum Saba</p>
+            <div class="badges">
+                <span class="badge">Google ADK</span>
+                <span class="badge">Gemini 2.5</span>
+                <span class="badge">Multi-Agent</span>
+                <span class="badge">FastAPI</span>
+                <span class="badge">Python 3.9+</span>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2><span class="icon">🎯</span> Overview</h2>
+            <p>AutomatedGrader is a production-ready AI system that automates the grading of homework and tests. It provides comprehensive analysis including rubric-based grading, plagiarism detection, AI-generated content detection, and personalized feedback with sources.</p>
+            
+            <div class="success-box">
+                <strong>✨ Key Features:</strong> Multi-agent orchestration, parallel analysis, pause/resume support, session management, memory persistence, and comprehensive observability.
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📄 Multi-Format Input</h4>
+                    <p>Accepts PDFs, images (OCR), and plain text with graceful fallbacks</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔍 Plagiarism Detection</h4>
+                    <p>Web search-based similarity checking with confidence scoring</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🤖 AI Content Detection</h4>
+                    <p>Heuristic analysis for AI-generated text identification</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 Rubric-Based Grading</h4>
+                    <p>Customizable criteria with detailed scoring and justification</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💬 Constructive Feedback</h4>
+                    <p>Actionable suggestions with sources and style improvements</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⏸️ Pause/Resume</h4>
+                    <p>Long-running operations with human-in-the-loop checkpoints</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🏗️</span> Architecture</h2>
+            
+            <h3>System Components</h3>
+            <div class="architecture-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div>
+                        <strong>Ingestion Layer</strong><br>
+                        <code>ingestion.py</code> - PDF extraction (pypdf), OCR (pytesseract), text fallback
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div>
+                        <strong>Parallel Analysis</strong><br>
+                        <code>tools/plagiarism.py</code> + <code>tools/ai_detection.py</code> - Concurrent execution with error isolation
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div>
+                        <strong>Grading Agent</strong><br>
+                        <code>agents/grading_agent.py</code> - LLM-based rubric evaluation with sessions & memory
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div>
+                        <strong>Feedback Agent</strong><br>
+                        <code>agents/feedback_agent.py</code> - Constructive suggestions with sources
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div>
+                        <strong>Orchestrator</strong><br>
+                        <code>orchestrator.py</code> - Pipeline coordination, pause/resume, report generation
+                    </div>
+                </div>
+            </div>
+
+            <h3>Technology Stack</h3>
+            <div class="tech-stack">
+                <span class="tech-badge">Google ADK</span>
+                <span class="tech-badge">Gemini 2.5 Flash Lite</span>
+                <span class="tech-badge">FastAPI</span>
+                <span class="tech-badge">pypdf</span>
+                <span class="tech-badge">pytesseract</span>
+                <span class="tech-badge">duckduckgo-search</span>
+                <span class="tech-badge">asyncio</span>
+                <span class="tech-badge">InMemorySessionService</span>
+                <span class="tech-badge">InMemoryMemoryService</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🚀</span> Getting Started</h2>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Python 3.9 or higher</li>
+                <li>Google Gemini API key</li>
+                <li>Optional: <code>pypdf</code>, <code>pillow</code>, <code>pytesseract</code>, <code>duckduckgo-search</code></li>
+            </ul>
+
+            <h3>Installation</h3>
+            <pre><code># Clone or download the project
+cd google-agent
+
+# Install dependencies
+pip install google-adk pypdf pillow pytesseract duckduckgo-search fastapi uvicorn
+
+# Configure API key
+export GOOGLE_API_KEY="your_api_key_here"
+
+# Or create .env file
+echo 'GOOGLE_API_KEY="your_api_key_here"' > .env</code></pre>
+
+            <h3>Usage - CLI</h3>
+            <pre><code># Grade a PDF with default rubric
+python -m AutomatedGrader input.pdf
+
+# Grade with custom rubric
+python -m AutomatedGrader essay.pdf --rubric "Clarity, accuracy, structure, evidence"
+
+# Pause after specific stage for review
+python -m AutomatedGrader test.pdf --rubric "Math accuracy" --pause-after analysis
+
+# Direct script execution also supported
+python AutomatedGrader/orchestrator.py input.txt</code></pre>
+
+            <h3>Usage - API Server</h3>
+            <pre><code># Start the FastAPI server
+uvicorn AutomatedGrader.server:app --host 0.0.0.0 --port 8000
+
+# Test health endpoint
+curl http://localhost:8000/health
+
+# Grade via API (text)
+curl -X POST http://localhost:8000/grade \
+  -F "text=Student essay content here..." \
+  -F "rubric=Clarity, accuracy, structure"
+
+# Grade via API (file upload)
+curl -X POST http://localhost:8000/grade \
+  -F "file=@essay.pdf" \
+  -F "rubric=Custom rubric criteria"</code></pre>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📋</span> Output Format</h2>
+            
+            <p>The system generates a comprehensive JSON report saved to <code>AutomatedGrader/output/latest_report.json</code>:</p>
+
+            <pre><code>{
+  "ok": true,
+  "report_path": "AutomatedGrader/output/latest_report.json",
+  "input": {
+    "ok": true,
+    "path": "input.pdf",
+    "ext": ".pdf",
+    "pages": 3
+  },
+  "analysis": {
+    "plagiarism": {
+      "avg_similarity": 0.234,
+      "high_similarity_chunks": 0,
+      "likely_plagiarized": false,
+      "confidence": "moderate",
+      "note": null
+    },
+    "ai_eval": {
+      "entropy": 4.521,
+      "risk": "low",
+      "likely_ai": false,
+      "disclaimer": "Heuristic-only; not ML-based..."
+    }
+  },
+  "grade": {
+    "overall_score": 85,
+    "criteria": [
+      {"name": "Clarity", "score": 90, "notes": "Well-structured..."},
+      {"name": "Accuracy", "score": 80, "notes": "Minor factual errors..."}
+    ],
+    "notes": "Strong essay with room for improvement..."
+  },
+  "feedback": {
+    "suggestions": [
+      "Add more supporting evidence...",
+      "Improve transition between paragraphs..."
+    ],
+    "sources": [
+      "https://example.com/resource1",
+      "Academic Journal Vol 5..."
+    ],
+    "style": [
+      "Vary sentence length",
+      "Use active voice"
+    ]
+  }
+}</code></pre>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🔒</span> Security & Production Features</h2>
+
+            <h3>Security Enhancements</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Implementation</th>
+                    <th>Benefit</th>
+                </tr>
+                <tr>
+                    <td>Prompt Injection Protection</td>
+                    <td>Text sanitization removes adversarial patterns</td>
+                    <td>Prevents students from overriding grading instructions</td>
+                </tr>
+                <tr>
+                    <td>CORS Configuration</td>
+                    <td>Environment-based origin whitelist</td>
+                    <td>Restricts API access to trusted domains</td>
+                </tr>
+                <tr>
+                    <td>Temp File Cleanup</td>
+                    <td>Immediate + periodic cleanup</td>
+                    <td>Prevents disk exhaustion and data leakage</td>
+                </tr>
+                <tr>
+                    <td>Error Isolation</td>
+                    <td>Wrapped analysis tasks with fallbacks</td>
+                    <td>One component failure doesn't crash pipeline</td>
+                </tr>
+            </table>
+
+            <h3>Observability</h3>
+            <ul>
+                <li><strong>Logging:</strong> Integrated with <code>AgentObservability</code> for comprehensive event tracking</li>
+                <li><strong>Warnings:</strong> Text truncation, missing dependencies, low confidence alerts</li>
+                <li><strong>Error States:</strong> Graceful degradation with informative error messages</li>
+                <li><strong>Health Check:</strong> <code>/health</code> endpoint for monitoring</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>⚠️ Production Considerations:</strong>
+                <ul>
+                    <li>Set <code>ALLOWED_ORIGINS</code> environment variable for CORS</li>
+                    <li>AI detection is heuristic-only - not suitable as sole plagiarism evidence</li>
+                    <li>Web search dependency (DuckDuckGo) may have rate limits</li>
+                    <li>Consider database-backed sessions for multi-instance deployments</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🎓</span> Advanced Features</h2>
+
+            <h3>Pause/Resume Workflow</h3>
+            <p>The orchestrator supports human-in-the-loop checkpoints for quality control:</p>
+            <pre><code># Pause after ingestion to review extracted text
+python -m AutomatedGrader input.pdf --pause-after ingestion
+
+# Pause after analysis to review plagiarism/AI findings
+python -m AutomatedGrader input.pdf --pause-after analysis
+
+# Pause after grading to review scores before feedback
+python -m AutomatedGrader input.pdf --pause-after grading</code></pre>
+
+            <h3>Session & Memory Management</h3>
+            <p>Each agent maintains conversation history and memory:</p>
+            <ul>
+                <li><strong>Session Service:</strong> <code>InMemorySessionService</code> tracks conversation state per session ID</li>
+                <li><strong>Memory Service:</strong> <code>InMemoryMemoryService</code> persists context across turns</li>
+                <li><strong>Upgrade Path:</strong> Replace with database-backed services for production persistence</li>
+            </ul>
+
+            <h3>Custom Rubrics</h3>
+            <p>Define evaluation criteria tailored to your assessment needs:</p>
+            <pre><code># Math-focused rubric
+--rubric "Accuracy of calculations, clarity of work shown, proper notation"
+
+# Essay rubric
+--rubric "Thesis strength, supporting evidence, structure, grammar, originality"
+
+# Programming assignment
+--rubric "Code correctness, efficiency, documentation, style, testing"</code></pre>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">⚙️</span> Configuration</h2>
+
+            <h3>Environment Variables</h3>
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>GOOGLE_API_KEY</code></td>
+                    <td><em>Required</em></td>
+                    <td>Gemini API key for LLM access</td>
+                </tr>
+                <tr>
+                    <td><code>ALLOWED_ORIGINS</code></td>
+                    <td>localhost variants</td>
+                    <td>Comma-separated CORS origins</td>
+                </tr>
+                <tr>
+                    <td><code>AI_DETECT_STRICT</code></td>
+                    <td><code>false</code></td>
+                    <td>Enable strict AI detection mode</td>
+                </tr>
+            </table>
+
+            <h3>File Paths</h3>
+            <ul>
+                <li><strong>Output:</strong> <code>AutomatedGrader/output/latest_report.json</code></li>
+                <li><strong>Temp Files:</strong> <code>AutomatedGrader/tmp/</code> (auto-cleaned)</li>
+                <li><strong>Logs:</strong> Configured via <code>AgentObservability</code></li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎬 Try It Now</h2>
+            <p style="margin-bottom: 30px;">Get started with AutomatedGrader in under 5 minutes</p>
+            <a href="https://github.com/esk000/AIAgentsIntensive" class="btn">📂 View on GitHub</a>
+            <a href="https://ai-agents-intensive.vercel.app/index.html" class="btn">📖 Full Documentation</a>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🔧</span> Project Structure</h2>
+            <pre><code>AutomatedGrader/
+├── __init__.py
+├── __main__.py                 # Module entry point
+├── orchestrator.py             # Main pipeline coordinator
+├── ingestion.py                # PDF/OCR/text extraction
+├── server.py                   # FastAPI REST API
+├── agents/
+│   ├── grading_agent.py        # Rubric-based evaluation
+│   └── feedback_agent.py       # Constructive feedback
+├── tools/
+│   ├── plagiarism.py           # Web search similarity
+│   └── ai_detection.py         # Heuristic AI detection
+├── output/
+│   └── latest_report.json      # Generated reports
+└── tmp/                        # Temporary uploads (auto-cleaned)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📚</span> Concepts Demonstrated</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Multi-Agent Systems</h4>
+                    <p>Sequential orchestration with specialized grading and feedback agents</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Parallel Execution</h4>
+                    <p>Concurrent plagiarism and AI detection with asyncio.gather</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Custom Tools</h4>
+                    <p>Domain-specific analysis functions wrapped as agent tools</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Sessions & Memory</h4>
+                    <p>Stateful conversations with context persistence</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Context Engineering</h4>
+                    <p>Prompt injection protection and sanitization</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Observability</h4>
+                    <p>Comprehensive logging, error handling, health checks</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Pause/Resume</h4>
+                    <p>Long-running operations with human checkpoints</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Production Ready</h4>
+                    <p>Security, error isolation, resource cleanup, CORS</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🐛</span> Troubleshooting</h2>
+
+            <h3>Common Issues</h3>
+            
+            <div class="info-box">
+                <strong>Issue:</strong> "GOOGLE_API_KEY not found"<br>
+                <strong>Solution:</strong> Set environment variable or create <code>.env</code> file with your API key
+            </div>
+
+            <div class="info-box">
+                <strong>Issue:</strong> PDF extraction fails<br>
+                <strong>Solution:</strong> Install <code>pypdf</code>: <code>pip install pypdf</code>
+            </div>
+
+            <div class="info-box">
+                <strong>Issue:</strong> OCR fails for images<br>
+                <strong>Solution:</strong> Install Tesseract: <code>brew install tesseract</code> (macOS) or <code>apt-get install tesseract-ocr</code> (Ubuntu)
+            </div>
+
+            <div class="info-box">
+                <strong>Issue:</strong> Plagiarism detection shows "unavailable"<br>
+                <strong>Solution:</strong> Install <code>duckduckgo-search</code>: <code>pip install duckduckgo-search</code>
+            </div>
+
+            <div class="info-box">
+                <strong>Issue:</strong> CORS errors in browser<br>
+                <strong>Solution:</strong> Set <code>ALLOWED_ORIGINS</code> environment variable with your frontend URL
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📈</span> Future Enhancements</h2>
+            <ul>
+                <li>🗄️ Database-backed session persistence for distributed deployments</li>
+                <li>🤖 ML-based AI detection replacing heuristics</li>
+                <li>🌐 Multi-language support for international content</li>
+                <li>📊 Analytics dashboard for grading trends</li>
+                <li>🔄 Batch processing for multiple submissions</li>
+                <li>📧 Email notifications for completed assessments</li>
+                <li>🎨 Rich HTML/PDF report generation</li>
+                <li>🔌 LMS integrations (Canvas, Blackboard, Moodle)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📄</span> License & Attribution</h2>
+            <p><strong>Author:</strong> Erum Saba</p>
+            <p><strong>Project:</strong> AI Agents Intensive - Google ADK Showcase</p>
+            <p><strong>Framework:</strong> Google Agent Development Kit (ADK)</p>
+            <p><strong>Model:</strong> Gemini 2.5 Flash Lite</p>
+            
+            <div class="success-box">
+                <strong>✅ Production Status:</strong> All critical security and reliability issues have been addressed. System is production-ready with proper error handling, resource cleanup, and observability.
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ using Google ADK and Gemini 2.5</p>
+            <p>© 2024 Erum Saba | AI Agents Intensive</p>
+            <p style="margin-top: 10px;">
+                <a href="https://ai-agents-intensive.vercel.app/index.html" style="color: white; text-decoration: underline;">View All Projects</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
