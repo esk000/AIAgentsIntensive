@@ -3,6 +3,8 @@ import asyncio
 from typing import Optional
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from AutomatedGrader.orchestrator import AutomatedGraderOrchestrator
@@ -23,6 +25,15 @@ app.add_middleware(
     allow_methods=["POST", "GET", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Serve the UI from the same FastAPI service to avoid CORS issues
+app.mount("/public", StaticFiles(directory="public", html=True), name="public")
+
+
+@app.get("/")
+async def root():
+    # Redirect root to the UI page
+    return RedirectResponse(url="/public/automated-grader.html")
 
 
 def _cleanup_temp_files(older_than_hours: int = 24):
